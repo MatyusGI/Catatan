@@ -9,7 +9,7 @@ network -> bridge adapter
 klik OK
 start machine
 
-## setting ubuntu server
+## setting installation ubuntu server
 pilih bahasa english
 update to the new installer
 keyboard configuration -> english (US) -> done
@@ -20,6 +20,14 @@ storage configuration -> done -> continue
 profile setup -> name -> server name (dibedakan dari name) -> ussername -> password
 SSH setup -> ceklist (enter) -> done
 featured server snap -> done
-waiting installation
+waiting installation -> reboot
+login
 
-[] test
+## setting dasar ubuntu server
+sudo apt update
+sudo apt install net-tools \n
+
+Server kosong sudah jadi
+
+## cloning server
+klik kanan pada virtual machine -> clone -> generate new mac address -> ok
