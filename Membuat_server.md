@@ -22,4 +22,4 @@ SSH setup -> ceklist (enter) -> done
 featured server snap -> done
 waiting installation
 
-[ ] test
+[] test
