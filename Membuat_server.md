@@ -25,7 +25,7 @@ login
 
 ## setting dasar ubuntu server
 sudo apt update
-sudo apt install net-tools \n
+sudo apt install net-tools 
 
 Server kosong sudah jadi
 
