@@ -72,6 +72,8 @@ GRANT SELECT,INSERT,UPDATE,DELETE,CREATE,CREATE TEMPORARY TABLES,DROP,INDEX,ALTE
 
 exit
 
+/etc/init.d/mysql restart
+
 # install mediawiki
 cd /usr/local/src
 
