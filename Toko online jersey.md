@@ -79,4 +79,7 @@ Buka file .env ubah :
 
 # Make controller & model
 
-            
+            php artisan make:controller LigaController -r -m liga
+            php artisan make:controller ProductController -r -m product
+            php artisan make:controller OrderController -r -m order
+            php artisan make:controller OrderDetailController -r -m OrderDetail
