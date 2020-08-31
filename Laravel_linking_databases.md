@@ -1,5 +1,5 @@
 # Create project
-composer create-project --prefer-dist laravel/laravel linking_databases
+            composer create-project --prefer-dist laravel/laravel linking_databases
 
 # Create database
 masuk ke database -> mysql -u root -p
@@ -26,7 +26,7 @@ DB_USERNAME=root
 DB_PASSWORD= [your password]
 
 # Make Migration (product)
-php artisan make:migration create_products_table
+            php artisan make:migration create_products_table
 
 # Edit migration file
 buka folder database -> migration -> create_products_table.php
@@ -34,16 +34,13 @@ buka folder database -> migration -> create_products_table.php
 pada function up tambahkan :
 
             $table->id();
-            
             $table->string('name');
-            
             $table->float('price');
-            
             $table->timestamps();
             
 
 # Make migration (order)
-php artisan make:migration create_orders_table
+            php artisan make:migration create_orders_table
 
 # Edit migration file
 buka folder database -> migration -> create_orders_table.php
@@ -61,7 +58,7 @@ pada function up tambahkan :
             $table->timestamps();
             
 # Make migration (order item)
-php artisan make:migration create_orderItems_table
+            php artisan make:migration create_orderItems_table
 
 # Edit migration file
 buka folder database -> migration -> create_orders_table.php
@@ -82,10 +79,10 @@ pada function up tambahkan :
             
             
 # Migrate
-php artisan migrate
+            php artisan migrate
 
 # Make controller & model
-php artisan make:controller ProductController -r -m product
+            php artisan make:controller ProductController -r -m product
 
 yes
 
@@ -96,4 +93,7 @@ didalam class product tambahkan :
 
             protected $fillable = ['name', 'price'];
             
-# 
+# Install Livewire
+Mempermudah dalam JavaScript dan membuat halaman tanpa reload (single page)
+
+            composer require livewire/livewire
