@@ -72,4 +72,11 @@ Buka file .env ubah :
             
 # Make migration
 
-            php artisan make:migration create_ligas_table.php            
+            php artisan make:migration create_ligas_table
+            php artisan make:migration create_products_table
+            php artisan make:migration create_orders_table
+            php artisan make:migration create_order_details_table
+
+# Make controller & model
+
+            
