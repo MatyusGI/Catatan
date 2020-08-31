@@ -70,6 +70,6 @@ Buka file .env ubah :
 
             APP_NAME=E-shop
             
-# Make migration & model
-            php artisan make:model liga -m
-            
+# Make migration
+
+            php artisan make:migration create_ligas_table.php            
