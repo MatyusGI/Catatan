@@ -1,4 +1,29 @@
+# Create project
+            composer create-project --prefer-dist laravel/laravel jersey
 
+# Create database
+Masuk ke database -> mysql -u root -p
+
+Enter password
+
+Buat database -> create database jersey;
+
+# Edit .env file
+Buka file .env menggunakan vscode 
+
+Ubah :
+
+DB_CONNECTION=mysql
+
+DB_HOST=127.0.0.1
+
+DB_PORT=3306
+
+DB_DATABASE=jersey
+
+DB_USERNAME=root
+
+DB_PASSWORD= [your password]
 
 
 # Install Livewire
@@ -40,4 +65,11 @@ Didalam app.blade.php bagian head tambahkan :
             <livewire:styles/>
             <livewire:scripts/>
 
-# 
+# Mengubah nama web
+Buka file .env ubah :
+
+            APP_NAME=E-shop
+            
+# Make migration & model
+            php artisan make:model liga -m
+            
