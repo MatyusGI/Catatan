@@ -2,16 +2,16 @@
             composer create-project --prefer-dist laravel/laravel linking_databases
 
 # Create database
-masuk ke database -> mysql -u root -p
+Masuk ke database -> mysql -u root -p
 
-enter password
+Enter password
 
-buat database -> create database linking_databases;
+Buat database -> create database linking_databases;
 
 # Edit .env file
-buka file .env menggunakan vscode 
+Buka file .env menggunakan vscode 
 
-ubah :
+Ubah :
 
 DB_CONNECTION=mysql
 
@@ -29,9 +29,9 @@ DB_PASSWORD= [your password]
             php artisan make:migration create_products_table
 
 # Edit migration file
-buka folder database -> migration -> create_products_table.php
+Buka folder database -> migration -> create_products_table.php
 
-pada function up tambahkan :
+Pada function up tambahkan :
 
             $table->id();
             $table->string('name');
@@ -43,40 +43,30 @@ pada function up tambahkan :
             php artisan make:migration create_orders_table
 
 # Edit migration file
-buka folder database -> migration -> create_orders_table.php
+Buka folder database -> migration -> create_orders_table.php
 
-pada function up tambahkan :
+Pada function up tambahkan :
 
             $table->id();
-            
             $table->foreignId('customer')->constrained('users')->onDelete('cascade')->onUpdate('cascade');  *untuk link database ke tabel users
-            
             $table->dateTime('date_ordered');
-            
             $table->boolean('complete');
-            
             $table->timestamps();
             
 # Make migration (order item)
             php artisan make:migration create_orderItems_table
 
 # Edit migration file
-buka folder database -> migration -> create_orders_table.php
+Buka folder database -> migration -> create_orders_table.php
 
-pada function up tambahkan :
+Pada function up tambahkan :
 
             $table->id();
-            
             $table->foreignId('product')->constrained('products')->onDelete('cascade')->onUpdate('cascade');  *untuk link database ke tabel products
-            
             $table->foreignId('order')->constrained('orders')->onDelete('cascade')->onUpdate('cascade');  *untuk link database ke tabel orders
-            
             $table->tinyInteger('quantity');
-            
             $table->dateTime('date_added');
-            
             $table->timestamps();
-            
             
 # Migrate
             php artisan migrate
@@ -84,12 +74,12 @@ pada function up tambahkan :
 # Make controller & model
             php artisan make:controller ProductController -r -m product
 
-yes
+Ketik : yes
 
 # Edit product model
-buka folder app -> product.php
+Buka folder app -> product.php
 
-didalam class product tambahkan :
+Didalam class product tambahkan :
 
             protected $fillable = ['name', 'price'];
             
@@ -97,3 +87,9 @@ didalam class product tambahkan :
 Mempermudah dalam JavaScript dan membuat halaman tanpa reload (single page)
 
             composer require livewire/livewire
+
+# Install Laravel UI
+Untuk membuat UI login & register
+            composer require laravel/ui
+            
+# 
