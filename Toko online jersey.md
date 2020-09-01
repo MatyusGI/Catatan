@@ -9,7 +9,7 @@ Enter password
 Buat database -> create database jersey;
 
 # Edit .env file
-Buka file .env menggunakan vscode 
+Buka file .env menggunakan vscode. 
 
 Ubah :
 
@@ -27,22 +27,22 @@ DB_PASSWORD= [your password]
 
 
 # Install Livewire
-Mempermudah dalam JavaScript dan membuat halaman tanpa reload (single page)
+Mempermudah dalam JavaScript dan membuat halaman tanpa reload (single page).
 
             composer require livewire/livewire
 
 # Install Laravel UI
-Untuk membuat UI login & register
+Untuk membuat UI login & register.
 
             composer require laravel/ui
             
 # Make authentication
-Membuat halaman login & register
+Membuat halaman login & register.
 
             php artisan ui bootstrap --auth
             
 # Install Turbolinks
-Untuk membuat single page
+Untuk membuat single page.
 
             npm install --save turbolinks
             npm install && npm run dev
@@ -128,7 +128,7 @@ Tambahkan colloum pada table :
             php artisan migrate
             
 # Make seeder
-Digunakan untuk mengisi database
+Digunakan untuk mengisi database.
 
             php artisan make:seeder LigaSeeder
             php artisan make:seeder ProductSeeder
@@ -239,7 +239,7 @@ Pada folder database -> seeds -> ProductSeeder.php tambahkan :
         ]);
 
 # Seeding database
-Mengisi otomatis database menggunakan seeder
+Mengisi otomatis database menggunakan seeder.
 
             php artisan db:seed --class=LigaSeeder
             php artisan db:seed --class=ProductSeeder
@@ -295,4 +295,118 @@ Pada folder app -> User.php tambahkan :
         return $this->hasMany(Order::class, 'user_id', 'id');
     }
 
+# Download Images
+Download dari : https://drive.google.com/drive/folders/18bVutvyCrAltWPIQHoNRAEKJUwVF9CfK
+
+Pindahkan ke folder (nama project laravel) -> public -> (paste didalam folder public)
+
+# Create a component livewire
+Membuat halaman home dengan livewire.
+
+            php artisan make:livewire Home
+            php artisan make:livewire Navbar
+            
+# Edit route
+Pada Route -> web.php ubah menjadi :
+
+            Auth::routes();
+
+            Route::livewire('/', 'home')->name('home');
+            
+Pada app -> providers -> RouteServiceProvider.php ubah :
+
+            public const HOME = '/';
+            
+# Edit navbar
+Buka folder resources -> views -> layouts -> app.blade.php lalu cut kode navbar dan paste ke folder resources -> views -> livewire -> navbar.blade.php
+
+Pada folder resources -> views -> layouts -> app.blade.php ketikan pada tempat navbar sebelumnya :
+
+            <livewire:navbar/>
+Pada folder resources -> views -> livewire -> navbar.blade.php tambahkan :
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <!-- Left Side Of Navbar -->
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('home') }}">Home</a>
+                    </li>
+                </ul>
+
+# Edit font
+Buka google font -> pilih yang sesuai -> buka embed -> copy <link> -> paste pada folder (resources -> views -> layouts -> app.blade.php) -> replace pada <link href" ">
+
+## Buat CSS baru
+Pada folder public -> css -> create file (custom.css).
+
+Isikan :
+
+            body {
+                 font-family: 'PT Sans', sans-serif; --> Didapat dari google font pada CSS rules
+            }
+            
+## linking new CSS
+Pada folder resources -> views -> layouts -> app.blade.php bagian style tambahkan :
+
+            <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
+            
+# Edit Home Page
+Pada folder app -> http -> livewire -> Home.php tambahkan :
+
+        use app\Liga;
+        use app\Product;
+        
+        return view('livewire.home', [
+            'products' => Product::take(4)->get(),
+            'ligas' => Liga::all()
+        ]);
+        
+Delete file home.blade.php dan welcome.blade.php yang ada pada folder resources -> views -> home.blade.php. hapus saja karena tidak digunakan.
+
+# Build Home Page
+Pada folder resources -> views -> livewire -> home.blade.php tambahan :
+
+            <div class="container">
+
+                {{-- BANNER --}}
+                <div class="banner">
+                    <img src="{{ url('assets/slider/slider1.png') }}" alt="">
+                </div>
+
+                {{-- PILIH-LIGA  --}}
+                <section class="pilih-liga">
+                    <div class="row mt-4">
+                        @@foreach ($ligas as $liga)
+                            <div class="col">
+                                <div class="card shadow">
+                                    <div class="card-body text-center">
+                                    <img src="{{ url('assets/liga') }}/{{ $liga->gambar }}" class="img-fluid">
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                </section>
+
+            </div>
+
+Pada folder public -> css -> custom.css tambahkan :
+
+            body {
+                font-family: 'PT Sans', sans-serif;
+            }
+
+            .banner img {
+                width: 100%;
+                border-radius: 15px; /* membuat sisi sudut melengkung */
+            }
+
+            .pilih-liga img {
+                max-height: 100px;
+            }
+
+            .pilih-liga .card {
+                border-radius: 15px;
+            }
+            
 # 
