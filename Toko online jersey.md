@@ -138,29 +138,29 @@ Pada folder database -> seeds -> LigaSeeder.php tambahkan :
             
             use Illuminate\Support\Facades\DB;
             
-            DB::table('ligas')->insert([
-            	'nama' => 'Bundes Liga',
-        	            'negara' => 'Jerman',
-        	            'gambar' => 'bundesliga.png',
-             ]);
+        DB::table('ligas')->insert([
+        	'nama' => 'Bundes Liga',
+        	'negara' => 'Jerman',
+        	'gambar' => 'bundesliga.png',
+        ]);
 
-            DB::table('ligas')->insert([
-        	            'nama' => 'Premier League',
-        	            'negara' => 'Inggris',
-        	            'gambar' => 'premierleague.png',
-            ]);
+        DB::table('ligas')->insert([
+        	'nama' => 'Premier League',
+        	'negara' => 'Inggris',
+        	'gambar' => 'premierleague.png',
+        ]);
 
-            DB::table('ligas')->insert([
-        	            'nama' => 'La Liga',
-        	            'negara' => 'Spanyol',
-        	            'gambar' => 'laliga.png',
-            ]);
+        DB::table('ligas')->insert([
+        	'nama' => 'La Liga',
+        	'negara' => 'Spanyol',
+        	'gambar' => 'laliga.png',
+        ]);
 
-            DB::table('ligas')->insert([
-        	            'nama' => 'Serie A',
-        	            'negara' => 'Itali',
-        	            'gambar' => 'seriea.png',
-            ]);
+        DB::table('ligas')->insert([
+        	'nama' => 'Serie A',
+        	'negara' => 'Itali',
+        	'gambar' => 'seriea.png',
+        ]);
             
 Pada folder database -> seeds -> ProductSeeder.php tambahkan :
 
@@ -237,3 +237,62 @@ Pada folder database -> seeds -> ProductSeeder.php tambahkan :
             'liga_id' => 3,
             'gambar' => 'madrid.png'
         ]);
+
+# Seeding database
+Mengisi otomatis database menggunakan seeder
+
+            php artisan db:seed --class=LigaSeeder
+            php artisan db:seed --class=ProductSeeder
+            
+# Linking database
+Pada folder app -> Liga.php tambahkan :
+
+    public function products()
+    {
+        return $this->hasMany(Product::class, 'liga_id', 'id');
+    }
+            
+Pada folder app -> Order.php tambahkan :
+
+    public function order_details()
+    {
+        return $this->hasMany(OrderDetail::class, 'order_id', 'id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+            
+Pada folder app -> OrderDetails.php tambahkan :
+
+    public function order()
+    {
+        return $this->belongsTo(Order::class, 'order_id', 'id');
+    }
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class, 'product_id', 'id');
+    }
+            
+Pada folder app -> Product.php tambahkan :
+
+    public function liga()
+    {
+        return $this->belongsTo(Liga::class, 'liga_id', 'id');
+    }
+
+    public function order_details()
+    {
+        return $this->hasMany(OrderDetail::class, 'product_id', 'id');
+    }
+            
+Pada folder app -> User.php tambahkan :
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class, 'user_id', 'id');
+    }
+
+# 
