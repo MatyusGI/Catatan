@@ -70,6 +70,13 @@ Buka file .env ubah :
 
             APP_NAME=E-shop
             
+# Make model & migration (Lebih baik jalankan make controller & model)
+
+            php artisan make:model Liga -m
+            php artisan make:model Product -m
+            php artisan make:model Order -m
+            php artisan make:model OrderDetail -m
+            
 # Make migration
 
             php artisan make:migration create_ligas_table
@@ -83,3 +90,10 @@ Buka file .env ubah :
             php artisan make:controller ProductController -r -m Product
             php artisan make:controller OrderController -r -m Order
             php artisan make:controller OrderDetailController -r -m OrderDetail
+
+# Edit migration
+Tambahkan colloum pada table :
+## User
+            $table->string('alamat')->nullable();
+            $table->string('nohp')->nullable();
+## Product
