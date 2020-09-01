@@ -93,7 +93,147 @@ Buka file .env ubah :
 
 # Edit migration
 Tambahkan colloum pada table :
-## User
+## Users
             $table->string('alamat')->nullable();
             $table->string('nohp')->nullable();
-## Product
+## Ligas
+            $table->string('nama');
+            $table->string('negara');
+            $table->string('gambar');
+## Products
+            $table->string('nama');
+            $table->integer('harga')->default(125000);
+            $table->integer('harga_nameset')->default(50000);
+            $table->integer('liga_id');
+            $table->boolean('is_ready')->default(true);
+            $table->string('jenis')->default('Replika Top Quality');
+            $table->float('berat')->default(0.25);
+            $table->string('gambar');
+## Orders
+            $table->string('kode_pemesanan');
+            $table->string('status')->default(0);
+            $table->integer('total_harga');
+            $table->integer('kode_unik');
+            $table->integer('user_id');
+## Order_Details
+            $table->integer('jumlah_pesanan');
+            $table->integer('total_harga');
+            $table->boolean('nameset')->default(false);
+            $table->string('nama')->nullable();
+            $table->string('nomor')->nullable();
+            $table->integer('product_id');
+            $table->integer('order_id');
+            
+# Migrate
+            php artisan migrate
+            
+# Make seeder
+Digunakan untuk mengisi database
+
+            php artisan make:seeder LigaSeeder
+            php artisan make:seeder ProductSeeder
+            
+# Edit Seeder
+Pada folder database -> seeds -> LigaSeeder.php tambahkan :
+            
+            use Illuminate\Support\Facades\DB;
+            
+            DB::table('ligas')->insert([
+            	'nama' => 'Bundes Liga',
+        	            'negara' => 'Jerman',
+        	            'gambar' => 'bundesliga.png',
+             ]);
+
+            DB::table('ligas')->insert([
+        	            'nama' => 'Premier League',
+        	            'negara' => 'Inggris',
+        	            'gambar' => 'premierleague.png',
+            ]);
+
+            DB::table('ligas')->insert([
+        	            'nama' => 'La Liga',
+        	            'negara' => 'Spanyol',
+        	            'gambar' => 'laliga.png',
+            ]);
+
+            DB::table('ligas')->insert([
+        	            'nama' => 'Serie A',
+        	            'negara' => 'Itali',
+        	            'gambar' => 'seriea.png',
+            ]);
+            
+Pada folder database -> seeds -> ProductSeeder.php tambahkan :
+
+            use Illuminate\Support\Facades\DB;
+            
+        DB::table('products')->insert([
+        	'nama' => 'CHELSEA 3RD 2018-2019',
+            'liga_id' => 2,
+            'gambar' => 'chelsea.png'
+        ]);
+
+        DB::table('products')->insert([
+        	'nama' => 'LEICESTER CITY HOME 2018-2019',
+            'liga_id' => 2,
+            'gambar' => 'leicester.png'
+        ]);
+
+        DB::table('products')->insert([
+        	'nama' => 'MAN. UNITED AWAY 2018-2019',
+            'liga_id' => 2,
+            'gambar' => 'mu.png'
+        ]);
+
+        DB::table('products')->insert([
+        	'nama' => 'LIVERPOOL AWAY 2018-2019',
+            'liga_id' => 2,
+            'gambar' => 'liverpool.png'
+        ]);
+
+        DB::table('products')->insert([
+        	'nama' => 'TOTTENHAM 3RD 2018-2019',
+            'liga_id' => 2,
+            'gambar' => 'tottenham.png'
+        ]);
+
+        DB::table('products')->insert([
+        	'nama' => 'DORTMUND AWAY 2018-2019',
+            'liga_id' => 1,
+            'gambar' => 'dortmund.png'
+        ]);
+
+        DB::table('products')->insert([
+        	'nama' => 'BAYERN MUNCHEN 3RD 2018 2019',
+            'liga_id' => 1,
+            'gambar' => 'munchen.png'
+        ]);
+
+        DB::table('products')->insert([
+        	'nama' => 'JUVENTUS AWAY 2018-2019',
+            'liga_id' => 4,
+            'gambar' => 'juve.png'
+        ]);
+
+        DB::table('products')->insert([
+        	'nama' => 'AS ROMA HOME 2018-2019',
+            'liga_id' => 4,
+            'gambar' => 'asroma.png'
+        ]);
+
+        DB::table('products')->insert([
+        	'nama' => 'AC MILAN HOME 2018 2019',
+            'liga_id' => 4,
+            'gambar' => 'acmilan.png'
+        ]);
+
+        DB::table('products')->insert([
+        	'nama' => 'LAZIO HOME 2018-2019',
+            'liga_id' => 4,
+            'gambar' => 'lazio.png'
+        ]);
+
+        DB::table('products')->insert([
+        	'nama' => 'REAL MADRID 3RD 2018-2019',
+            'liga_id' => 3,
+            'gambar' => 'madrid.png'
+        ]);
