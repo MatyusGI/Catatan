@@ -320,6 +320,14 @@ Pada app -> providers -> RouteServiceProvider.php ubah :
 # Edit navbar
 Buka folder resources -> views -> layouts -> app.blade.php lalu cut kode navbar dan paste ke folder resources -> views -> livewire -> navbar.blade.php
 
+Ubah sedikit kode pada navbar.blade.php :
+
+            <nav class="navbar navbar-expand-md navbar-light bg-white">
+                    <div class="container">
+                        <a class="navbar-brand" href="{{ url('/') }}">
+                            <strong>E</strong>-Shop
+                        </a>
+
 Pada folder resources -> views -> layouts -> app.blade.php ketikan pada tempat navbar sebelumnya :
 
             <livewire:navbar/>
@@ -390,11 +398,11 @@ Pada folder resources -> views -> livewire -> home.blade.php tambahan :
                 </section>
 
                 {{-- BEST-PRODUCT  --}}
-                <section class="best-product mt-5 mb-4">
+                <section class="product mt-5 mb-4">
                     <h3><strong>Best Product</strong></h3>
                     <div class="row mt-4">
                         @foreach( $products as $product )
-                            <div class="col">
+                            <div class="col-md-3">
                                 <div class="card">
                                     <div class="card-body text-center">
                                     <img src="{{ url('assets/jersey') }}/{{ $product->gambar }}" class="img-fluid">
@@ -420,6 +428,7 @@ Pada folder public -> css -> custom.css tambahkan :
 
             body {
                 font-family: 'PT Sans', sans-serif;
+                background-color: white;
             }
 
             .banner img {
@@ -435,7 +444,7 @@ Pada folder public -> css -> custom.css tambahkan :
                 border-radius: 15px;
             }
 
-            .best-product .card {
+            .product .card {
                 border-radius: 15px;
             }
             
@@ -462,3 +471,179 @@ Pada folder resources -> views -> layouts -> app.blade.php tambahkan dibagian bo
            </main>
            @include('/layouts/footer') 
            
+# Edit Navbar
+Pada folder resources -> views -> livewire -> navbar.blade.php tambahkan :
+
+                      <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          List Jersey
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            @foreach ($ligas as $liga)
+                                <a class="dropdown-item" href="#"> {{ $liga->nama }} </a>
+
+                            @endforeach
+                          <div class="dropdown-divider"></div>
+                          <a class="dropdown-item" href="#">Semua Liga</a>
+                        </div>
+                      </li>
+                      
+Pada  folder app -> http -> livewire -> navbar.php tambahkan :
+
+            return view('livewire.navbar', [
+                        'ligas' => Liga::all()
+                    ]);
+                    
+# Make List Jersey Page
+            php artisan make:livewire ProductIndex
+            
+## Make routing
+Pada folder routes -> web.php tambahkan :
+            
+            Route::livewire('/products', 'product-index')->name('products');
+            
+Pada folder resources -> views -> livewire -> navbar.blade.php ubah route semua liga :
+
+            <div class="dropdown-divider"></div>
+                   <a class="dropdown-item" href=" {{ route('products') }} ">Semua Liga</a>
+                   
+## Edit product index
+Pada folder resources -> views -> livewire -> product-index.blade.php tambahkan :
+
+           <div class="container">
+                <div class="row mb-2">
+                    <div class="col">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                              <li class="breadcrumb-item"><a href=" {{ route('home') }} " class="text-dark">Home</a></li>
+                              <li class="breadcrumb-item active" aria-current="page">List Jersey</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+
+                <h1>
+                    List <strong>Jersey</strong>
+                </h1>
+
+                <section class="product mb-5">
+                    <div class="row mt-4">
+                        @foreach( $products as $product )
+                            <div class="col-md-3 mb-3">
+                                <div class="card">
+                                    <div class="card-body text-center flex-fill">
+                                    <img src="{{ url('assets/jersey') }}/{{ $product->gambar }}" class="img-fluid">
+                                    <div class="row mt-2">
+                                        <div class="col-md-12">
+                                            <h5><strong> {{ $product->nama }} </strong></h5>
+                                            <h5>Rp. {{ number_format( $product->harga ) }} </h5>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-2">
+                                        <div class="col-md-12">
+                                            <a href="#" class="btn btn-dark btn-block">Detail</a>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            {{ $products->links() }}
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+Pada folder public -> css -> custom.css tambahkan :
+
+            .breadcrumb {
+                background-color: transparent;
+                padding: 0;
+            }
+
+            .breadcrumb .active {
+                font-weight: bold;
+                color: black;
+            }
+            
+            .btn-dark {
+                border-radius: 10px;
+            }
+            
+Pada folder app -> http -> livewire -> ProductIndex.php tambahkan :
+
+            use App\Product;
+            use Livewire\Component;
+            use Livewire\WithPagination;
+
+            class ProductIndex extends Component
+            {
+                use WithPagination;
+
+                public function render()
+                {
+                    $products = Product::paginate(8);
+                    return view('livewire.product-index', [
+                        'products' => $products
+                    ]);
+                }
+            }
+            
+# Make search colloum
+Pada folder app -> http -> livewire -> ProductIndex.php tambahkan :
+
+               <div class="row">
+                    <div class="col-md-9">
+                        <h1>
+                            List <strong>Jersey</strong>
+                        </h1>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="input-group mb-3">
+                            <input wire:model="search" type="text" class="form-control" placeholder="Search . . ." aria-label="Search" aria-describedby="basic-addon1">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">
+                                    <i class="fas fa-search"></i>
+                                </span>
+                              </div>
+                        </div>
+                    </div>
+                </div>
+            
+Download font awesome di google -> ekstrak -> taruh pada folder (nama project laravel) -> public -> paste didalam folder public.
+
+Pada folder resources -> views ->layouts -> app.blade.php tambahkan :
+
+                <link href="{{ asset('fontawesome/css/all.min.css') }}" rel="stylesheet">
+
+Pada folder app -> http -> livewire -> ProductIndex.php tambahkan :
+
+                use WithPagination;
+
+                public $search;
+
+                protected $updateQueryString = ['search'];
+
+                public function updatingSearch()
+                {
+                    $this->resetPage();
+                }
+
+                public function render()
+                {
+                    if($this->search) {
+                        $products = Product::where('nama', 'like', '%'.$this->search.'%')->paginate(8);
+                    }else {
+                        $products = Product::paginate(8);
+                    }
+
+                    return view('livewire.product-index', [
+                        'products' => $products
+                    ]);
+                }
+                
+# 
