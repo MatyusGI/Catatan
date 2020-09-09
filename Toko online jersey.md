@@ -645,5 +645,150 @@ Pada folder app -> http -> livewire -> ProductIndex.php tambahkan :
                         'products' => $products
                     ]);
                 }
+
+## Add eye icon to detail
+Pada folder resources -> views -> livewire -> product-index.blade.php tambahkan :
+            
+            <div class="row mt-2">
+                <div class="col-md-12">
+                    <a href="#" class="btn btn-dark btn-block"><i class="fas fa-eye"></i> Detail</a>
+                </div>
+            </div>
+            
+Pada folder resources -> views -> livewire -> home.blade.php tambahan :
+
+            {{-- BEST-PRODUCT  --}}
+    <section class="product mt-5 mb-3">
+        <h3>
+            <strong>Best Product</strong>
+            <a href=" {{ route('products') }} " class="btn btn-dark float-right"><i class="fas fa-eye"></i> Semua Product</a>
+        </h3>
+        <div class="row mt-4">
+            @foreach( $products as $product )
+                <div class="col-md-3">
+                    <div class="card">
+                        <div class="card-body text-center flex-fill">
+                        <img src="{{ url('assets/jersey') }}/{{ $product->gambar }}" class="img-fluid">
+                        <div class="row mt-2">
+                            <div class="col-md-12">
+                                <h5><strong> {{ $product->nama }} </strong></h5>
+                                <h5>Rp. {{ number_format( $product->harga ) }} </h5>
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-md-12">
+                                <a href="#" class="btn btn-dark btn-block"><i class="fas fa-eye"></i> Detail</a>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+    </section>
+    
+# Make List Product
+Di terminal ketikan :
+           
+            php artisan make:livewire ProductLiga
+            php artisan make:livewire ProductDetail
+            
+Pada folder routes -> web.php tambahkan :
+
+            Route::livewire('/products/liga/{ligaId}', 'product-liga')->name('products.liga');
+            Route::livewire('/products/{id}', 'product-detail')->name('products.detail');
+            
+Pada folder app -> http -> livewire -> ProductLiga.php tambahkan :
+
+            <?php
+
+            namespace App\Http\Livewire;
+
+            use App\Liga;
+            use App\Product;
+            use Livewire\Component;
+            use Livewire\WithPagination;
+
+            class ProductLiga extends Component
+            {
+                use WithPagination;
+
+                public $search, $liga;
+
+                protected $updateQueryString = ['search'];
+
+                public function updatingSearch()
+                {
+                    $this->resetPage();
+                }
+
+                public function mount($ligaId)
+                {
+                    $ligaDetail = Liga::find($ligaId);
+
+                    if($ligaDetail) {
+                        $this->liga = $ligaDetail;
+                    }
+                }
+
+                public function render()
+                {
+                    if($this->search) {
+                        $products = Product::where('liga_id', $this->liga->id)->where('nama', 'like', '%'.$this->search.'%')->paginate(8);
+                    }else {
+                        $products = Product::where('liga_id', $this->liga->id)->paginate(8);
+                    }
+
+                    return view('livewire.product-index', [
+                        'products' => $products
+                    ]);
+                }
+            }
+
+            
+Pada folder resources -> views -> livewire -> navbar.blade.php tambahkan :
+
+            @foreach ($ligas as $liga)
+                <a class="dropdown-item" href=" {{ route('products.liga', $liga->id) }} "> {{ $liga->nama }} </a>
+
+            @endforeach
+            
+## Make Title Dinamic
+Pada folder resources -> views -> livewire -> navbar.blade.php ubah :
+
+            <h1>
+                List <strong>Jersey</strong>
+            </h1>
+Menjadi :
+
+            <h1>
+                {{ $title }}
+            </h1>
+
+Pada folder app -> http -> livewire -> ProductLiga.php tambahkan :
+            
+        return view('livewire.product-index', [
+            'products' => $products,
+            'title' => 'Jersey '.$this->liga->nama
+        ]);
+            
+Pada folder app -> http -> livewire -> ProductIndex.php tambahkan :
+
+        return view('livewire.product-index', [
+            'products' => $products,
+            'title' => 'List Jersey'
+        ]);
+            
+## Make Logo in Home can Clicked
+Pada folder resources -> views -> livewire -> home.blade.php tambahkan :
+
+                <div class="col">
+                    <a href=" {{ route('products.liga', $liga->id) }} ">
+                        <div class="card shadow">
+                            <div class="card-body text-center">
+                                <img src="{{ url('assets/liga') }}/{{ $liga->gambar }}" class="img-fluid">
+                            </div>
+                        </div>
+                    </a>
+                </div>
                 
-# 
