@@ -70,21 +70,21 @@ Buka file .env ubah :
 
             APP_NAME=E-shop
             
-# Make model & migration (Lebih baik jalankan make controller & model)
+# Make model & migration (controller dibuat dengan livewire)
 
             php artisan make:model Liga -m
             php artisan make:model Product -m
             php artisan make:model Order -m
             php artisan make:model OrderDetail -m
             
-# Make migration
+# Make migration (menggunakan model & migration agar lebih cepat)
 
             php artisan make:migration create_ligas_table
             php artisan make:migration create_products_table
             php artisan make:migration create_orders_table
             php artisan make:migration create_order_details_table
 
-# Make controller & model
+# Make controller & model (controller dibuat dengan livewire sehingga tidak perlu)
 
             php artisan make:controller LigaController -r -m Liga
             php artisan make:controller ProductController -r -m Product
@@ -301,7 +301,7 @@ Download dari : https://drive.google.com/drive/folders/18bVutvyCrAltWPIQHoNRAEKJ
 Pindahkan ke folder (nama project laravel) -> public -> (paste didalam folder public)
 
 # Create a component livewire
-Membuat halaman home dengan livewire.
+Membuat halaman home dengan livewire. Sekaligus membuat controller yang tersimpan pada folder app -> http -> livewire.
 
             php artisan make:livewire Home
             php artisan make:livewire Navbar
@@ -792,3 +792,56 @@ Pada folder resources -> views -> livewire -> home.blade.php tambahkan :
                     </a>
                 </div>
                 
+# Make Product Detail
+Pada folder resources -> views -> livewire -> home.blade.php tambahkan :
+
+            <div class="row mt-2">
+                <div class="col-md-12">
+                    <a href=" {{ route('products.detail', $product->id) }} " class="btn btn-dark btn-block"><i class="fas fa-eye"></i> Detail</a>
+                </div>
+            </div>
+            
+Pada folder resources -> views -> livewire -> product-index.blade.php tambahkan :
+
+            <div class="row mt-2">
+                <div class="col-md-12">
+                    <a href=" {{ route('products.detail', $product->id) }} " class="btn btn-dark btn-block"><i class="fas fa-eye"></i> Detail</a>
+                </div>
+            </div>
+            
+## Edit controller
+Pada folder app -> http -> livewire -> ProductDetail.php tambahkan :
+
+            use App\Product;
+            use Livewire\Component;
+
+            class ProductDetail extends Component
+            {
+                public $product;
+
+                public function mount($id)
+                {
+                    $productDetail = Product::find($id);
+
+                    if($productDetail) {
+                        $this->product = $productDetail;
+                    }
+                }
+
+                public function render()
+                {
+                    return view('livewire.product-detail');
+                }
+            }
+            
+Pada folder resources -> views -> livewire -> product-index.blade.php tambahkan :
+
+            
+            
+Pada folder public -> css -> custom.css tambahkan :
+
+            .gambar-product {
+                background-color: #f1f1f1;
+                border-width: 0;
+                border-radius: 20px;
+            }
