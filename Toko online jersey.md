@@ -976,7 +976,7 @@ Pada folder app -> http -> livewire -> ProductDetail.php tambahkan :
                     ]);
 
                     // Validasi jika belum login
-                    @if(!Auth::user()) {
+                    if(!Auth::user()) {
                         return redirect()->route('login');
                     }
 
