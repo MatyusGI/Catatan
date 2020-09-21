@@ -110,7 +110,7 @@ Tambahkan colloum pada table :
             $table->float('berat')->default(0.25);
             $table->string('gambar');
 ## Orders
-            $table->string('kode_pemesanan');
+            $table->string('kode_pemesanan')->nullable();
             $table->string('status')->default(0);
             $table->integer('total_harga');
             $table->integer('kode_unik');
@@ -254,6 +254,14 @@ Pada folder app -> Liga.php tambahkan :
             
 Pada folder app -> Order.php tambahkan :
 
+    protected $fillable = [
+        'kode_pemesanan',
+        'status',
+        'total_harga',
+        'kode_unik',
+        'user_id',
+    ];
+    
     public function order_details()
     {
         return $this->hasMany(OrderDetail::class, 'order_id', 'id');
@@ -266,6 +274,16 @@ Pada folder app -> Order.php tambahkan :
             
 Pada folder app -> OrderDetails.php tambahkan :
 
+    protected $fillable = [
+        'jumlah_pesanan',
+        'total_harga',
+        'namaset',
+        'nama',
+        'nomor',
+        'product_id',
+        'order_id',
+    ];
+    
     public function order()
     {
         return $this->belongsTo(Order::class, 'order_id', 'id');
@@ -968,6 +986,11 @@ Update database pada tabel products di mysql dengan :
             update products set is_ready = 0 where id = 12;
             
 Pada folder app -> http -> livewire -> ProductDetail.php tambahkan :
+
+            use App\Order;
+            use App\OrderDetail;
+            use Illuminate\Support\Facades\Auth;
+            use App\Product;
 
                 public function masukanKeranjang()
                 {
