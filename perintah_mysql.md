@@ -11,7 +11,7 @@
       select * from [nama tabel]; --> untuk melihat keseluruhan isi tabel
       select [nama coloumn] = [value] from [nama tabel]; --> untuk melihat isi tabel secara spesifik
       
-# Melihat tabel pada database
+# Melihat list tabel pada database
 
       show tables;
       
@@ -26,6 +26,10 @@
 # Menambah database
 
       create database [nama database];
+      
+# Melihat list database
+
+      show databases;
       
 # Menambah / Mengisi data pada tabel
 
