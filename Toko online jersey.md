@@ -1,3 +1,7 @@
+# Dependencies
+Laravel 7.26.0
+Livewire 2.x
+
 # Create project
             composer create-project --prefer-dist laravel/laravel jersey
 
