@@ -1,7 +1,7 @@
 # How To Update composer
 ## cari lokasi binary composer
 
-    ```which composer```
+    ~~~which composer~~~
   
 ## download composer
 
