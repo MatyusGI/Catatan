@@ -1,7 +1,7 @@
 # How To Update composer
 ## cari lokasi binary composer
 
-    which composer
+    ```which composer```
   
 ## download composer
 
@@ -14,3 +14,5 @@ jika tidak ada curl install dengan
 ## install composer
 
     sudo php composer-setup.php --install-dir=/usr/bin --filename=composer
+    
+sesuaikan --install-dir=/usr/bin dengan directory sebelumnya
