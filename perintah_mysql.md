@@ -6,6 +6,10 @@
 
       drop table [nama tabel];
       
+# Drop / Delete Database
+
+      drop database [nama database];
+      
 # Melihat isi tabel
 
       select * from [nama tabel]; --> untuk melihat keseluruhan isi tabel
