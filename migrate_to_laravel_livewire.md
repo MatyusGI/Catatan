@@ -428,7 +428,7 @@ Copy ke statq.blade.php :
     </div>
     <!-- End of StatQ area -->
     
-karena <h1>{{ quiz.title }}</h1>, <h3>{{ question.text }}</h3>, dan {{ response.text }} membutuhkan escape route untuk keluar dari regular expresion php sehingga dibutuhkan @{{quiz.title}}. code nya menjadi :
+karena '<h1>{{ quiz.title }}</h1>', '<h3>{{ question.text }}</h3>', dan {{ response.text }} membutuhkan escape route untuk keluar dari regular expresion php sehingga dibutuhkan @{{quiz.title}}. code nya menjadi :
 
         <!-- Start StatQ area-->
     <div id="app" class="app-area area-padding" v-cloak>
